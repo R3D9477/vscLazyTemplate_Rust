@@ -1,7 +1,10 @@
 ### Lazy Template for VSCode (Rust)
-Template of Rust project with config to make a VSCode be IDE-like with set of useful features for simplier development life, configured to run as on host, as inside [Docker].<br/>
+Template of Rust project with config to make a VSCode be IDE-like with set of useful features for simplier development life, configured to run as on host, as inside Docker.<br/>
 
 ### Main tasks
+
+<p align="center"><img src="./README.IMG1.png" alt="CppEditor"></p>
+
 * `Project: Rebuild` - clean and build project
 * `Project: Build` - build project without cleaning
 * `Project: Clean` - clean project
@@ -11,7 +14,12 @@ Template of Rust project with config to make a VSCode be IDE-like with set of us
 * `LiveProcMon: Start Monitoring` - start real-time monitoring of the target process
 * `LiveProcMon: Stop Monitoring` - stop monitoring
 
+<p align="center"><img src="./README.IMG3.png" alt="CppEditor" width="400" height="200"></p>
+
 ### Shortcuts (in status bar)
+
+<p align="center"><img src="./README.IMG2.png" alt="CppEditor"></p>
+
 * `LiveProcMon: Start Monitoring`
 * `LiveProcMon: Stop Monitoring`
 * `Valgrind: Show Memcheck Report`

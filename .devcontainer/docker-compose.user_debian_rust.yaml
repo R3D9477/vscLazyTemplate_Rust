@@ -36,6 +36,6 @@ services:
       - <<: *volume-build
       - <<: *volume-ssh-agent
       - <<: *volume-X11
-      - $HOME/.cargo:/home/build/.cargo
+#      - $HOME/.cargo:/home/build/.cargo
     devices:
       - /dev/dri:/dev/dri

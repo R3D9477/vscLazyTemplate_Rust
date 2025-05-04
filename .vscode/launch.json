@@ -7,20 +7,39 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug C++ Project",
-            "program": "${command:cmake.launchTargetPath}",
+            "name": "Debug executable 'rsproject'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=rsproject",
+                    "--package=rsproject"
+                ],
+                "filter": {
+                    "name": "rsproject",
+                    "kind": "bin"
+                }
+            },
             "args": [],
-            "cwd": "${workspaceFolder}",
-            "preLaunchTask": "$(package) C++ Project: Build",
+            "cwd": "${workspaceFolder}"
         },
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug Current C++ File",
-            "program": "${config:CppRunCurrentFile.build_directory}/${fileBasenameNoExtension}",
+            "name": "Debug unit tests in executable 'rsproject'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=rsproject",
+                    "--package=rsproject"
+                ],
+                "filter": {
+                    "name": "rsproject",
+                    "kind": "bin"
+                }
+            },
             "args": [],
-            "cwd": "${config:CppRunCurrentFile.build_directory}",
-            "preLaunchTask": "CppRunCurrentFile: Build",
-        },
+            "cwd": "${workspaceFolder}"
+        }
     ]
 }
