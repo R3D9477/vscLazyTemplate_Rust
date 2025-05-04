@@ -1,0 +1,327 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "$(package) Project: Rebuild",
+            "problemMatcher": [
+                {
+                    "base": "$rustc",
+                    "fileLocation": "autoDetect"
+                }
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "$(clear-all) Project: Clean",
+                "$(package) Project: Build"
+            ]
+        },
+        {
+            "label": "$(package) Project: Build",
+            "problemMatcher": [
+                {
+                    "base": "$rustc",
+                    "fileLocation": "autoDetect"
+                }
+            ],
+            "command": "cargo",
+            "args": [
+                "build"
+            ]
+        },
+        {
+            "label": "$(clear-all) Project: Clean",
+            "problemMatcher": [
+                {
+                    "base": "$rustc",
+                    "fileLocation": "autoDetect"
+                }
+            ],
+            "command": "cargo",
+            "args": [
+                "clean"
+            ]
+        },
+        {
+            "label": "$(report) Valgrind: Show Memcheck Report",
+            "problemMatcher": [
+                {
+                    "base": "$rustc",
+                    "fileLocation": "autoDetect"
+                }
+            ],
+            "dependsOn": "$(package) Project: Build",
+            "linux": {
+                "command": "${workspaceFolder}/.vscode/utils/valgrind_open_memcheck_report.sh"
+            }
+        },
+        {
+            "label": "$(report) Valgrind: Show Cachegrind Report",
+            "problemMatcher": [
+                {
+                    "base": "$rustc",
+                    "fileLocation": "autoDetect"
+                }
+            ],
+            "dependsOn": "$(package) Project: Build",
+            "linux": {
+                "command": "${workspaceFolder}/.vscode/utils/valgrind_open_cachegrind_report.sh"
+            }
+        },
+        {
+            "label": "$(report) Valgrind: Show Callgrind Report",
+            "problemMatcher": [
+                {
+                    "base": "$rustc",
+                    "fileLocation": "autoDetect"
+                }
+            ],
+            "dependsOn": "$(package) Project: Build",
+            "linux": {
+                "command": "${workspaceFolder}/.vscode/utils/valgrind_open_callgrind_report.sh"
+            }
+        },
+        {
+            "label": "$(telescope) LiveProcMon: Start Monitoring",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "LiveProcMon: Start Monitoring (opened terminal for failure case)",
+                "VSCode Utility: Toggle Terminal Twice",
+            ]
+        },
+        {
+            "label": "$(stop) LiveProcMon: Stop Monitoring",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "LiveProcMon: Stop Monitoring (opened terminal for failure case)",
+                "VSCode Utility: Toggle Terminal Twice",
+            ]
+        },
+        // Service tasks: LiveProcMon
+        {
+            "label": "LiveProcMon: Start Monitoring (opened terminal for failure case)",
+            "hide": true,
+            "dependsOn": [
+                "LiveProcMon: Run Generator",
+                "LiveProcMon: Run Server",
+                "LiveProcMon: Open WebPage",
+            ],
+            "dependsOrder": "parallel",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "LiveProcMon: Stop Monitoring (opened terminal for failure case)",
+            "hide": true,
+            "dependsOn": [
+                "LiveProcMon: Terminate Generator",
+                "LiveProcMon: Terminate Server",
+            ],
+            "dependsOrder": "parallel",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "LiveProcMon: Terminate Generator",
+            "hide": true,
+            "command": "${input:terminateLiveProcMonGeneratorTask}",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "LiveProcMon: Terminate Server",
+            "hide": true,
+            "command": "${input:terminateLiveProcMonServerTask}",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "LiveProcMon: Open WebPage",
+            "hide": true,
+            "command": "${input:openLiveProcMonInSimpleBrowser}",
+            "dependsOn": [
+                "VSCode Utility: Wait for Report File",
+                "VSCode Utility: Wait for Report File",
+                "VSCode Utility: Split Editor"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "LiveProcMon: Run Generator",
+            "hide": true,
+            "linux": {
+                "command": "${workspaceFolder}/.vscode/utils/liveprocmon_generator.sh"
+            },
+            "args": [
+                "${config:LiveProcMon.maxPoints}",
+                "${config:LiveProcMon.collectDelayMs}",
+                "${config:LiveProcMon.generatePlotDelayMs}",
+                "${config:LiveProcMon.updateFrequencyMs}",
+                "${config:LiveProcMon.plotWidthInch}",
+                "${config:LiveProcMon.plotHeightInch}"
+            ],
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "LiveProcMon: Run Server",
+            "hide": true,
+            "linux": {
+                "command": "${workspaceFolder}/.vscode/utils/liveprocmon_server.sh"
+            },
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        // Service tasks: Utilities
+        {
+            "label": "VSCode Utility: Wait for Report File",
+            "hide": true,
+            "linux": {
+                "command": "sleep",
+                "args": [
+                    "0.15s"
+                ]
+            },
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "VSCode Utility: Split Editor",
+            "hide": true,
+            "command": "${command:workbench.action.splitEditor}",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "VSCode Utility: Focus on First Group",
+            "hide": true,
+            "command": "${command:workbench.action.focusFirstEditorGroup}",
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "VSCode Utility: If devcontainer Folder Exists",
+            "hide": true,
+            "type": "shell",
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "if [ -d \"${workspaceFolder}/.devcontainer\" ] ; then exit 0 ; fi ; exit 1"
+                ]
+            },
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "VSCode Utility: If devcontainer Folder does NOT Exist",
+            "hide": true,
+            "type": "shell",
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "if [ -d \"${workspaceFolder}/.devcontainer\" ] ; then exit 1 ; fi ; exit 0"
+                ]
+            },
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": [
+                    "absolute"
+                ]
+            }
+        },
+        {
+            "label": "VSCode Utility: Toggle Terminal Twice",
+            "hide": true,
+            "command": "${command:workbench.action.terminal.toggleTerminal}",
+            "dependsOn": "VSCode Utility: Toggle Terminal",
+            "problemMatcher": []
+        },
+        {
+            "label": "VSCode Utility: Toggle Terminal",
+            "hide": true,
+            "command": "${command:workbench.action.terminal.toggleTerminal}",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "openLiveProcMonInSimpleBrowser",
+            "type": "command",
+            "command": "simpleBrowser.show",
+            "args": [
+                "http://localhost:10001"
+            ]
+        },
+        {
+            "id": "terminateLiveProcMonGeneratorTask",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "LiveProcMon: Run Generator"
+        },
+        {
+            "id": "terminateLiveProcMonServerTask",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "LiveProcMon: Run Server"
+        },
+    ]
+}
