@@ -145,30 +145,6 @@
             "command": "${command:workbench.action.focusFirstEditorGroup}",
         },
         {
-            "label": "VSCode Utility: If devcontainer Folder Exists",
-            "hide": true,
-            "type": "shell",
-            "linux": {
-                "command": "bash",
-                "args": [
-                    "-c",
-                    "if [ -d \"${workspaceFolder}/.devcontainer\" ] ; then exit 0 ; fi ; exit 1"
-                ]
-            },
-        },
-        {
-            "label": "VSCode Utility: If devcontainer Folder does NOT Exist",
-            "hide": true,
-            "type": "shell",
-            "linux": {
-                "command": "bash",
-                "args": [
-                    "-c",
-                    "if [ -d \"${workspaceFolder}/.devcontainer\" ] ; then exit 1 ; fi ; exit 0"
-                ]
-            },
-        },
-        {
             "label": "VSCode Utility: Toggle Terminal Twice",
             "hide": true,
             "command": "${command:workbench.action.terminal.toggleTerminal}",
