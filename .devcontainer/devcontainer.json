@@ -30,5 +30,5 @@
     "containerEnv": {
         "DISPLAY": ":0"
     },
-    "postStartCommand": "sed -i 's/\r$//' /home/build/rsproject/.vscode/utils/*.sh; if ! [ -f Cargo.toml ] ; then sudo chown -R build:build /home/build/rsproject ; cargo init ; fi"
+    "postStartCommand": "/home/build/rsproject/.vscode/utils/project_init.sh"
 }
