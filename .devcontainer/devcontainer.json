@@ -30,5 +30,5 @@
     "containerEnv": {
         "DISPLAY": ":0"
     },
-    "postStartCommand": "/home/build/rsproject/.vscode/utils/project_init.sh"
+    "postStartCommand": "sed -i 's/\r$//' .vscode/utils/*.sh ; .vscode/utils/project_init.sh"
 }
