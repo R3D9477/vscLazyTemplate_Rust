@@ -5,7 +5,7 @@ USER root
 RUN passwd --delete root
 
 RUN apt update -y
-RUN apt install wget curl lsb-release build-essential software-properties-common gnupg git sudo nano valgrind python3 jq python3-venv procps -y
+RUN apt install pkg-config wget curl lsb-release build-essential software-properties-common gnupg git sudo nano valgrind python3 jq python3-venv procps -y
 
 # CREATE USER
 
